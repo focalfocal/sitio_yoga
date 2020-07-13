@@ -48,3 +48,7 @@ h1, h2, h3, h4 {
 .title {
     margin-top: 0;
 }
+
+.comment {
+    margin: 20px 0px 20px 20px;
+}
