@@ -13,7 +13,9 @@
             {% endif %}
             {% if user.is_authenticated %}
                 <div class="col-md-1">
-                    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+
                 </div>
             {% endif %}
         </div>
