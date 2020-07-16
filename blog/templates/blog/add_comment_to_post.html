@@ -1,9 +1,15 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1>New comment</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
+    <h1>Nuevo comentario</h1>
+    <h2>Sitio protegido por reCAPTCHA</h2>
+    <form id="demo-form" method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Enviar</button>
+        <button 
+        	type="submit" 
+        	class="save btn btn-default g-recaptcha" 
+        	data-sitekey="6LfeHx4UAAAAAAKUx5rO5nfKMtc9-syDTdFLftnm"             
+        	data-callback="onSubmit">Enviar</button>
     </form>
+    <div class="status-message">%s</div>
 {% endblock %}

@@ -6,8 +6,8 @@ from django.urls import reverse
 # Create your models here.
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    text = models.TextField()
+    title = models.CharField(max_length=200, verbose_name='titulo')
+    text = models.TextField(verbose_name='texto')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
@@ -20,10 +20,10 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
-    text = models.TextField()
+    author = models.CharField(max_length=200, verbose_name='autor')
+    text = models.TextField(verbose_name='texto')
     email = models.CharField(max_length=250, blank=True)
-    web_site = models.CharField(max_length=250, blank=True)
+    web_site = models.CharField(max_length=250, blank=True, verbose_name='sitio web')
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
 

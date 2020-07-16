@@ -5,3 +5,5 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
+#Python Decouple library data files:
+.env
