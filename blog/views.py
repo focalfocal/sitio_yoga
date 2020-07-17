@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+import json
+import urllib
+from django.conf import settings
+from django.contrib import messages
 
 # Create your views here.
 def post_list(request):
@@ -46,9 +50,28 @@ def add_comment_to_post(request, pk):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
+            #Begin reCAPTCHA validation
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            url = 'https://www.google.com/recaptcha/api/siteverify'
+            values = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req =  urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            #End reCAPTCHA validation
+
+            if result['success']:
+
+                comment = form.save(commit=False)
+                comment.post = post
+                comment.save()
+                messages.success(request, '¡Se agregó exitosamente el comentario!')
+            else:
+                messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
+
             return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
