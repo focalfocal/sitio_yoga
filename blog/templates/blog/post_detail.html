@@ -1,13 +1,14 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+    <!--Post -->
     <div class="post">
         <div class="row">
             <div class="col-md-8">
                 <h2 class="title">{{ post.title }}</h2>
             </div>
             {% if post.published_date %}
-                <div class="col-md-3 date">
+                <div class="col-md-3">
                     {{ post.published_date }}
                 </div>
             {% endif %}
@@ -23,11 +24,13 @@
     </div>
 
     <hr>
-    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Agregar un comentario</a>
+    <!--a class="btn btn-default" href="{#% url 'add_comment_to_post' pk=post.pk %#}">Agregar un comentario</a-->
+    
+    <!--List of post comments-->
     {% for comment in post.comments.all %}
         {% if user.is_authenticated or comment.approved_comment %}
         <div class="comment">
-            <div class="date">
+            <div>
                 {{ comment.created_date }}
                 {% if not comment.approved_comment %}
                     <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
@@ -43,5 +46,33 @@
     {% empty %}
         <p>Todavía sin comentarios</p>
     {% endfor %}
+
+    <hr>
+    {% if messages %}
+      <!--ul class="messages">
+        {#% for message in messages %#}
+          <li class="{#{ message.tags }#}">{#{ message }#}</li>
+        {#% endfor %#}
+      </ul-->
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h1>Nuevo comentario</h1>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="g-recaptcha" data-sitekey='6LeNe7IZAAAAACtS3m-KAMvS5EsxpmD0fzlDT8ma'></div>
+        <button 
+            type="submit" 
+            class="save btn btn-default" 
+            >Enviar</button>   
+    </form>
 
 {% endblock %}

@@ -14,7 +14,42 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+
+    # Si se envio el formulario con el boton submit, procesar formulario:
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            #Begin reCAPTCHA validation
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            url = 'https://www.google.com/recaptcha/api/siteverify'
+            values = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req =  urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            #End reCAPTCHA validation
+
+            if result['success']:
+
+                comment = form.save(commit=False)
+                comment.post = post
+                comment.save()
+                messages.success(request, '¡Se envió exitosamente el comentario para aprobación!')
+            else:
+                messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
+
+            return redirect('post_detail', pk=post.pk)
+
+    #Si se pidio la pagina por GET: cargar formulario en blanco        
+    else:
+        form = CommentForm()
+        
+    #return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
+    return render(request, 'blog/post_detail.html', {'post': post, 'form': form})
 
 def post_new(request):
     if request.method == "POST":
@@ -45,37 +80,43 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-def add_comment_to_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            #Begin reCAPTCHA validation
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            url = 'https://www.google.com/recaptcha/api/siteverify'
-            values = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
-            data = urllib.parse.urlencode(values).encode()
-            req =  urllib.request.Request(url, data=data)
-            response = urllib.request.urlopen(req)
-            result = json.loads(response.read().decode())
-            #End reCAPTCHA validation
 
-            if result['success']:
+# def add_comment_to_post(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
 
-                comment = form.save(commit=False)
-                comment.post = post
-                comment.save()
-                messages.success(request, '¡Se agregó exitosamente el comentario!')
-            else:
-                messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
+#     # Si se envio el formulario con el boton submit, procesar formulario:
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             #Begin reCAPTCHA validation
+#             recaptcha_response = request.POST.get('g-recaptcha-response')
+#             url = 'https://www.google.com/recaptcha/api/siteverify'
+#             values = {
+#                 'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+#                 'response': recaptcha_response
+#             }
+#             data = urllib.parse.urlencode(values).encode()
+#             req =  urllib.request.Request(url, data=data)
+#             response = urllib.request.urlopen(req)
+#             result = json.loads(response.read().decode())
+#             #End reCAPTCHA validation
 
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+#             if result['success']:
+
+#                 comment = form.save(commit=False)
+#                 comment.post = post
+#                 comment.save()
+#                 messages.success(request, '¡Se agregó exitosamente el comentario!')
+#             else:
+#                 messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
+
+#             return redirect('post_detail', pk=post.pk)
+
+#     #Si se pidio la pagina por GET: cargar formulario en blanco        
+#     else:
+#         form = CommentForm()
+
+#     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 #@login_required
 #Pendiente tener esquema de seguridad. @login_required es un decorator que viene de "from django.contrib.auth.decorators import login_required"
