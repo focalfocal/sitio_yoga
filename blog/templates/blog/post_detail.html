@@ -15,7 +15,7 @@
             {% if user.is_authenticated %}
                 <div class="col-md-1">
                     <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
-                    <span class="glyphicon glyphicon-pencil"></span></a>
+                    <span class="material-icons">edit</span></a>
 
                 </div>
             {% endif %}
@@ -33,8 +33,8 @@
             <div>
                 {{ comment.created_date }}
                 {% if not comment.approved_comment %}
-                    <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                    <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                    <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="material-icons text-danger">remove_circle_outline</span></a>
+                    <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="material-icons text-danger">check_circle_outline</span></a>
                 {% endif %}
             </div>
             <strong>{{ comment.author }}</strong>
