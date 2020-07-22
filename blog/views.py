@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from .forms import PostForm, CommentForm
 import json
 import urllib
@@ -8,10 +8,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-# Create your views here.
-def post_list(request):
-     #No cambiar el nombre a object_list porque falla
-    object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+def paginate_post_list(request, object_list):
+    #No cambiar el nombre a object_list porque falla
     paginator = Paginator(object_list, 2) # 2 posts in each page
     page = request.GET.get('page')
     try:
@@ -26,6 +24,25 @@ def post_list(request):
         'blog/post_list.html',
         {'page': page,
         'posts': posts})
+
+def post_list(request):
+     #No cambiar el nombre a object_list porque falla
+    object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    # paginator = Paginator(object_list, 2) # 2 posts in each page
+    # page = request.GET.get('page')
+    # try:
+    #     posts = paginator.page(page)
+    # except PageNotAnInteger:
+    # # If page is not an integer deliver the first page
+    #     posts = paginator.page(1)
+    # except EmptyPage:
+    # # If page is out of range deliver last page of results
+    #     posts = paginator.page(paginator.num_pages)
+    # return render(request,
+    #     'blog/post_list.html',
+    #     {'page': page,
+    #     'posts': posts})
+    return paginate_post_list(request, object_list)
 
 
 #def post_detail(request, pk):
@@ -117,9 +134,19 @@ def comment_remove(request, pk):
     #return redirect('post_detail', pk=comment.post.pk)
     return redirect('post_detail', slug=comment.post.slug)
 
+
+
+#Muestra posts filtrados por un tag
+def tags_list(request, slug=None):
+    object_list = Post.objects.filter(tags__slug=slug).order_by('published_date')
+    #return render(request, 'myapp/index.html', {'posts': posts })
+    #return redirect('post_list_some', object_list)
+    return paginate_post_list(request, object_list)
+
+
 # def add_comment_to_post(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
-
+    
 #     # Si se envio el formulario con el boton submit, procesar formulario:
 #     if request.method == "POST":
 #         form = CommentForm(request.POST)

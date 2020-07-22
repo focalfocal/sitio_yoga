@@ -4,7 +4,17 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
 
-# Create your models here.
+class Tag(models.Model):
+    title = models.CharField(max_length=255, default='')
+    slug = models.SlugField(blank=True, default='')
+    
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Tag, self).save()
+
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, verbose_name='titulo')
@@ -13,6 +23,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     #slug = models.SlugField(max_length=250, unique_for_date='publish')  #Django 2 by example
     slug = models.SlugField(blank=True, default='')
+    tags = models.ManyToManyField(Tag)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -45,3 +56,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
