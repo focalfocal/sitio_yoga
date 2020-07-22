@@ -14,7 +14,8 @@
             {% endif %}
             {% if user.is_authenticated %}
                 <div class="col-md-1">
-                    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+                    <!--a class="btn btn-default" href="{#% url 'post_edit' pk=post.pk %#}"-->
+                    <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}">
                     <span class="material-icons">edit</span></a>
 
                 </div>
