@@ -10,12 +10,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def post_list(request):
-    #posts_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    #paginator = Paginator(post_list, 2) # 2 posts in each page
-
-    #No cambiar el nombre a object_list porque falla
+     #No cambiar el nombre a object_list porque falla
     object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    paginator = Paginator(object_list, 2) # 3 posts in each page
+    paginator = Paginator(object_list, 2) # 2 posts in each page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -30,7 +27,6 @@ def post_list(request):
         {'page': page,
         'posts': posts})
 
-    #return render(request, 'blog/post_list.html', {'posts': posts})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -66,8 +62,6 @@ def post_detail(request, pk):
     #Si se pidio la pagina por GET: cargar formulario en blanco        
     else:
         form = CommentForm()
-        
-    #return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
     return render(request, 'blog/post_detail.html', {'post': post, 'form': form})
 
@@ -99,7 +93,18 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
+#@login_required
+#Pendiente tener esquema de seguridad. @login_required es un decorator que viene de "from django.contrib.auth.decorators import login_required"
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('post_detail', pk=comment.post.pk)
 
+#@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect('post_detail', pk=comment.post.pk)
 
 # def add_comment_to_post(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
@@ -137,16 +142,3 @@ def post_edit(request, pk):
 #         form = CommentForm()
 
 #     return render(request, 'blog/add_comment_to_post.html', {'form': form})
-
-#@login_required
-#Pendiente tener esquema de seguridad. @login_required es un decorator que viene de "from django.contrib.auth.decorators import login_required"
-def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
-
-#@login_required
-def comment_remove(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
