@@ -12,8 +12,14 @@ class Tag(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        #Proxima vez agregar argumento: allow_unicode=True
         self.slug = slugify(self.title)
         super(Tag, self).save()
+
+    #Genera el tag del tag_slug
+    def get_tag_title(self):
+        #return reverse('detail', args=[str(self.slug)]) en Easy2
+        return reverse('post_detail', args=[str(self.slug)])
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -36,7 +42,7 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    #'Viwe on site' for the admin. Genera el path del slug
+    #'View on site' for the admin. Genera el path del slug
     def get_absolute_url(self):
         #return reverse('detail', args=[str(self.slug)]) en Easy2
         return reverse('post_detail', args=[str(self.slug)])

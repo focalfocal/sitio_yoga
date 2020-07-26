@@ -14,20 +14,23 @@
         <title>Sitio de empresa de clases de yoga o similar</title>
     </head>
     <body>
+        <!-- Navbar start -->
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
-            <img src="/media/images/png-transparent-om-symbol-yoga-om-text-monochrome-om.png" alt="Logo" width=60 class="navbar-brand">
+            <img src="/media/images/png-transparent-om-symbol-yoga-om-text-monochrome-om.png" alt="Logo" width=60 class="navbar-brand rounded">
                 </li>
                 <li class="nav-item">
-            <a class="navbar-brand text-white" href="#">Empresa de yoga</a> 
+            <a class="navbar-brand text-white" href="/">Empresa de yoga</a> 
                 </li>
             </ul>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> -->
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
 
+            <!-- <div class="collapse navbar-collapse" id="collapsibleNavbar"> -->
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -37,9 +40,33 @@
                         <a class="nav-link  text-white" href="#">Blog</a>
                     </li>
                 </ul>
+            <!-- <div class="collapse navbar-collapse  justify-content-end" id="collapsibleNavbar2"> -->
+            <!-- <div class="d-flex collapse navbar-collapse  justify-content-end collapsibleNavbar"> -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+
+                        <form action="/" method="get" class="form-inline mt-2 mt-md-0">
+                        <!-- <form action="/" method="get" class="form-inline my-2 my-lg-0"> -->
+                            <input id="q" name="q" 
+                            value="{{ request.GET.q }}"  
+                            class="form-control mr-sm-2" 
+                            type="text" 
+                            placeholder="Buscar en titulos" aria-label="Buscar en titulos">
+                            <button class="btn btn-success my-2 my-sm-0" 
+                            type="submit">Buscar</button>
+                        </form>
+                    </li>
+                </ul>
+            <!-- </div> -->
+<!--                 <form action="/" method="get" class="form-inline mt-2 mt-md-0 justify-content-end">
+                    <input id="q" name="q" value="{#{ request.GET.q }#}"  class="form-control mr-sm-2" type="text" placeholder="Buscar en titulos" aria-label="Buscar en titulos">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                </form> -->
             </div>
         </nav>
+        <!-- Navbar end -->
 
+        <!-- Post new icon -->
         <div class="container">
             <div class="row">
                 <div class="col-md-11"></div>
@@ -51,8 +78,8 @@
             </div>
         </div>
 
-
-        <div class="content container">
+        <!-- Main body content -->
+        <div class="container">
             <div class="row">
                 <div class="col-md-8">
                 {% block content %}

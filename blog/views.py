@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def paginate_post_list(request, object_list):
+def paginate_post_list(request, object_list, tag_title):
     #No cambiar el nombre a object_list porque falla
     paginator = Paginator(object_list, 2) # 2 posts in each page
     page = request.GET.get('page')
@@ -23,10 +23,11 @@ def paginate_post_list(request, object_list):
     return render(request,
         'blog/post_list.html',
         {'page': page,
-        'posts': posts})
+        'posts': posts,
+        'tag_title' : tag_title})
 
 def post_list(request):
-     #No cambiar el nombre a object_list porque falla
+     #No cambiar el nombre a object_list porque falla paginator
     object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     # paginator = Paginator(object_list, 2) # 2 posts in each page
     # page = request.GET.get('page')
@@ -42,12 +43,11 @@ def post_list(request):
     #     'blog/post_list.html',
     #     {'page': page,
     #     'posts': posts})
-    return paginate_post_list(request, object_list)
+    #tag_slug = None #usado solo al filtrar por tag
+    return paginate_post_list(request, object_list, None)
 
 
-#def post_detail(request, pk):
 def post_detail(request, slug=None):
-    #post = get_object_or_404(Post, pk=pk)
     post = get_object_or_404(Post, slug=slug)
 
     # Si se envio el formulario con el boton submit, procesar formulario:
@@ -76,7 +76,6 @@ def post_detail(request, slug=None):
             else:
                 messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
 
-            #return redirect('post_detail', pk=post.pk)
             return redirect('post_detail', slug=post.slug)
 
     #Si se pidio la pagina por GET: cargar formulario en blanco        
@@ -94,7 +93,6 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            #return redirect('post_detail', pk=post.pk)
             return redirect('post_detail', slug=post.slug)
             
     else:
@@ -102,9 +100,7 @@ def post_new(request):
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
-#ef post_edit(request, pk):
 def post_edit(request, slug):
-    #post = get_object_or_404(Post, pk=pk)
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
@@ -113,7 +109,6 @@ def post_edit(request, slug):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            #return redirect('post_detail', pk=post.pk)
             return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
@@ -124,59 +119,21 @@ def post_edit(request, slug):
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.approve()
-    #return redirect('post_detail', pk=comment.post.pk)
     return redirect('post_detail', slug=comment.post.slug)
 
 #@login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
-    #return redirect('post_detail', pk=comment.post.pk)
     return redirect('post_detail', slug=comment.post.slug)
-
-
 
 #Muestra posts filtrados por un tag
 def tags_list(request, slug=None):
-    object_list = Post.objects.filter(tags__slug=slug).order_by('published_date')
-    #return render(request, 'myapp/index.html', {'posts': posts })
-    #return redirect('post_list_some', object_list)
-    return paginate_post_list(request, object_list)
-
-
-# def add_comment_to_post(request, pk):
-#     post = get_object_or_404(Post, pk=pk)
+    tag = None
+    tag = get_object_or_404(Tag, slug=slug)
     
-#     # Si se envio el formulario con el boton submit, procesar formulario:
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             #Begin reCAPTCHA validation
-#             recaptcha_response = request.POST.get('g-recaptcha-response')
-#             url = 'https://www.google.com/recaptcha/api/siteverify'
-#             values = {
-#                 'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-#                 'response': recaptcha_response
-#             }
-#             data = urllib.parse.urlencode(values).encode()
-#             req =  urllib.request.Request(url, data=data)
-#             response = urllib.request.urlopen(req)
-#             result = json.loads(response.read().decode())
-#             #End reCAPTCHA validation
+    object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    object_list = object_list.filter(tags__in=[tag]) #separado para facilitar refactoring
 
-#             if result['success']:
+    return paginate_post_list(request, object_list, str(tag))
 
-#                 comment = form.save(commit=False)
-#                 comment.post = post
-#                 comment.save()
-#                 messages.success(request, '¡Se agregó exitosamente el comentario!')
-#             else:
-#                 messages.error(request, 'reCAPTCHA inválido. Por favor intente nuevamente.')
-
-#             return redirect('post_detail', pk=post.pk)
-
-#     #Si se pidio la pagina por GET: cargar formulario en blanco        
-#     else:
-#         form = CommentForm()
-
-#     return render(request, 'blog/add_comment_to_post.html', {'form': form})

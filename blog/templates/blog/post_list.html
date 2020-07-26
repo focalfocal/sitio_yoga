@@ -2,9 +2,17 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+    {% if tag_title %}
+        <h2 class="bg-warning text-white">
+            Con etiqueta: {{tag_title}}
+        </h2>
+        <br>
+    {%endif %}
     {% for post in posts %}
         <div class="post">
-            <h2><!--a href="{#% url 'post_detail' pk=post.pk %#}"--><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
+            <h2>
+                <a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a>
+            </h2>
             <div class="date">
                 <p>published: {{ post.published_date }}</p>
             </div>
