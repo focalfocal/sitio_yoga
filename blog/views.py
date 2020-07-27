@@ -9,8 +9,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
+#Auxiliary to paginate post lists
 def paginate_post_list(request, object_list, tag_title, search_string):
-    #No cambiar el nombre a object_list porque falla
+    #Do not change object_list name as causes paginator to fail
     paginator = Paginator(object_list, 2) # 2 posts in each page
     page = request.GET.get('page')
     try:
@@ -28,7 +29,7 @@ def paginate_post_list(request, object_list, tag_title, search_string):
         'tag_title' : tag_title,
         'search_string' : search_string})
 
-#Lista todo el blog o el resultado del search
+#Lists all the blog or text search results
 def post_list(request):
     search_string = request.GET.get('search_string', None)
     
@@ -46,11 +47,11 @@ def post_list(request):
 
     return paginate_post_list(request, object_list, tag_title=None, search_string=search_string)
 
-
+#Show a single post
 def post_detail(request, slug=None):
     post = get_object_or_404(Post, slug=slug)
 
-    # Si se envio el formulario con el boton submit, procesar formulario:
+    # If form submited by post, process form:
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -78,7 +79,7 @@ def post_detail(request, slug=None):
 
             return redirect('post_detail', slug=post.slug)
 
-    #Si se pidio la pagina por GET: cargar formulario en blanco        
+    #If page requested by GET: load blank form        
     else:
         form = CommentForm()
 
@@ -96,7 +97,6 @@ def post_new(request):
             return redirect('post_detail', slug=post.slug)
             
     else:
-        #print("paso por el else")
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
@@ -127,13 +127,13 @@ def comment_remove(request, pk):
     comment.delete()
     return redirect('post_detail', slug=comment.post.slug)
 
-#Muestra posts filtrados por un tag
+#Shows tag filtered posts
 def tags_list(request, slug=None):
     tag = None
     tag = get_object_or_404(Tag, slug=slug)
     
     object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    object_list = object_list.filter(tags__in=[tag]) #separado para facilitar refactoring
+    object_list = object_list.filter(tags__in=[tag]) #kept separate to facilitate refactoring
     tag_title = str(tag)
     return paginate_post_list(request, object_list, tag_title, search_string=None)
 

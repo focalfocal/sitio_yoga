@@ -12,13 +12,12 @@ class Tag(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        #Proxima vez agregar argumento: allow_unicode=True
+        #Pending to add argument: allow_unicode=True
         self.slug = slugify(self.title)
         super(Tag, self).save()
 
-    #Genera el tag del tag_slug
+    #Get tag_title based on tag
     def get_tag_title(self):
-        #return reverse('detail', args=[str(self.slug)]) en Easy2
         return reverse('post_detail', args=[str(self.slug)])
 
 class Post(models.Model):
@@ -42,9 +41,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    #'View on site' for the admin. Genera el path del slug
+    #'View on site' for the admin. Generates slug path
     def get_absolute_url(self):
-        #return reverse('detail', args=[str(self.slug)]) en Easy2
         return reverse('post_detail', args=[str(self.slug)])
 
 class Comment(models.Model):
