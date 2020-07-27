@@ -8,6 +8,14 @@
         </h2>
         <br>
     {%endif %}
+
+    {% if search_string %}
+        <h2 class="bg-success text-white">
+            Busqueda de texto: {{search_string}}
+        </h2>
+        <br>
+    {%endif %}
+
     {% for post in posts %}
         <div class="post">
             <h2>

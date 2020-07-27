@@ -7,8 +7,9 @@ import urllib
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
-def paginate_post_list(request, object_list, tag_title):
+def paginate_post_list(request, object_list, tag_title, search_string):
     #No cambiar el nombre a object_list porque falla
     paginator = Paginator(object_list, 2) # 2 posts in each page
     page = request.GET.get('page')
@@ -24,27 +25,26 @@ def paginate_post_list(request, object_list, tag_title):
         'blog/post_list.html',
         {'page': page,
         'posts': posts,
-        'tag_title' : tag_title})
+        'tag_title' : tag_title,
+        'search_string' : search_string})
 
+#Lista todo el blog o el resultado del search
 def post_list(request):
-     #No cambiar el nombre a object_list porque falla paginator
-    object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    # paginator = Paginator(object_list, 2) # 2 posts in each page
-    # page = request.GET.get('page')
-    # try:
-    #     posts = paginator.page(page)
-    # except PageNotAnInteger:
-    # # If page is not an integer deliver the first page
-    #     posts = paginator.page(1)
-    # except EmptyPage:
-    # # If page is out of range deliver last page of results
-    #     posts = paginator.page(paginator.num_pages)
-    # return render(request,
-    #     'blog/post_list.html',
-    #     {'page': page,
-    #     'posts': posts})
-    #tag_slug = None #usado solo al filtrar por tag
-    return paginate_post_list(request, object_list, None)
+    search_string = request.GET.get('search_string', None)
+    
+    if search_string is None or search_string is "":
+        #No cambiar el nombre a object_list porque falla paginator
+        object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    elif search_string is not None:
+        #object_list = Post.objects.filter(published_date__lte=timezone.now(), title__icontains=q).order_by('published_date')
+        object_list = Post.objects             \
+            .filter(published_date__lte=timezone.now())    \
+            .filter(
+                Q(title__icontains = search_string) | Q(text__icontains = search_string))\
+            .order_by('published_date')
+        #flowers = Flower.objects.filter(title__contains=q)
+
+    return paginate_post_list(request, object_list, tag_title=None, search_string=search_string)
 
 
 def post_detail(request, slug=None):
@@ -134,6 +134,6 @@ def tags_list(request, slug=None):
     
     object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     object_list = object_list.filter(tags__in=[tag]) #separado para facilitar refactoring
-
-    return paginate_post_list(request, object_list, str(tag))
+    tag_title = str(tag)
+    return paginate_post_list(request, object_list, tag_title, search_string=None)
 
