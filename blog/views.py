@@ -32,10 +32,10 @@ def paginate_post_list(request, object_list, tag_title, search_string):
 def post_list(request):
     search_string = request.GET.get('search_string', None)
     
-    if search_string is None or search_string is "":
+    if search_string == None or search_string == "":
         #No cambiar el nombre a object_list porque falla paginator
         object_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    elif search_string is not None:
+    elif search_string != None:
         #object_list = Post.objects.filter(published_date__lte=timezone.now(), title__icontains=q).order_by('published_date')
         object_list = Post.objects             \
             .filter(published_date__lte=timezone.now())    \

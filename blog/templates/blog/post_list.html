@@ -26,6 +26,8 @@
             </div>
             <p>{{ post.text|linebreaksbr }}</p>
         </div>
+    {% empty %}
+        <p class="text-danger">No se han encontrado posteos</p>
     {% endfor %}
     {% include "pagination.html" with page=posts %}
 {% endblock %}
