@@ -14,8 +14,8 @@
             {% endif %}
             {% if user.is_authenticated %}
                 <div class="col-md-1">
-                    <!--a class="btn btn-default" href="{#% url 'post_edit' pk=post.pk %#}"-->
-                    <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}">
+
+                     <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}">
                     <span class="material-icons">edit</span></a>
 
                 </div>
@@ -29,7 +29,6 @@
     </div>
 
     <hr>
-    <!--a class="btn btn-default" href="{#% url 'add_comment_to_post' pk=post.pk %#}">Agregar un comentario</a-->
     
     <!--List of post comments-->
     {% for comment in post.comments.all %}
@@ -54,11 +53,6 @@
 
     <hr>
     {% if messages %}
-      <!--ul class="messages">
-        {#% for message in messages %#}
-          <li class="{#{ message.tags }#}">{#{ message }#}</li>
-        {#% endfor %#}
-      </ul-->
         {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">

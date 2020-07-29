@@ -1,5 +1,10 @@
 from django.urls import path
 from . import views
+#For images:
+from django.conf import settings
+from django.conf.urls.static import static
+#For authentication - Allauth
+from django.urls import path, include
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
@@ -15,4 +20,7 @@ urlpatterns = [
 	path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 
 	path('tags/<slug:slug>/', views.tags_list, name='tags_list'),
-]
+
+    path('accounts/', include('allauth.urls')),
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
