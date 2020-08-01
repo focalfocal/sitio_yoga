@@ -24,31 +24,27 @@
             <div>
                 <p>publicado: {{ post.published_date }}</p>
             </div>
-            <!-- Image start -->
-                <div>
-                {% if post.image %}
-                    <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top" src="{{ post.image.url }}"
-                        alt="Imagen ilustrativa del post">
-                        <div class="card-body">
-                            <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
-                            <!--         <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Ver</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Editar<button>
-                                </div>
-                                <small class="text-muted">9 mins</small>
-                            </div> -->
-                        </div>
-                    </div>
-                {% endif %}
-                </div>
 
+            <!-- Image start -->
+            <div>
+            {% if post.image %}
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="{{ post.image.url }}"
+                    alt="Imagen ilustrativa del post">
+                    <div class="card-body">
+                        <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
+                     </div>
+                </div>
+            {% endif %}
+            </div>
             <!-- Image end -->
+
             <p>{{ post.text|linebreaksbr }}</p>
         </div>
     {% empty %}
         <p class="text-danger">No se han encontrado posteos</p>
     {% endfor %}
+
     {% include "pagination.html" with page=posts %}
+    
 {% endblock %}

@@ -33,6 +33,9 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+        #debugging
+        #print("url= ", self.image.url)
+        #print("path= ", self.image.path)
         super(Post, self).save()
 
     def publish(self):
