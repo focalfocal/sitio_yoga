@@ -9,7 +9,9 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% block section_css %}
+        {% endblock %}
 
         <title>Sitio de empresa de clases de yoga o similar</title>
     </head>
@@ -32,10 +34,10 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white disabled" href="#">Profesores</a>
+                        <a class="nav-link text-white" href="teachers/">Profesores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  text-white" href="#">Blog</a>
+                        <a class="nav-link  text-white" href="/">Blog</a>
                     </li>
                 </ul>
   
@@ -59,20 +61,22 @@
         </nav>
         <!-- Navbar end -->
 
-        <!-- Post new icon -->
-        <div class="container">
+        {% block section %}
+        {% comment "provisorio" %}
+        <!-- Add post -->
+<!--         <div class="container">
             <div class="row">
                 <div class="col-md-11"></div>
                 <div class="col-md-1">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'post_new' %}" class="text-primary"><span class="material-icons md-64">note_add<!-- add --></span></a>
+                    <a href="{% url 'post_new' %}" class="text-primary"><span class="material-icons md-64">note_add</span></a>
                 </div>
             {% endif %}
             </div>
         </div>
-
+ -->
         <!-- Main body content -->
-        <div class="container">
+<!--         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                 {% block content %}
@@ -80,6 +84,8 @@
                 </div>
             </div>
         </div>
+ -->    {% endcomment %}
+        {% endblock %}
 
         <!-- JS, Popper.js, and jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

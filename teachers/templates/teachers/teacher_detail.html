@@ -1,0 +1,33 @@
+{% extends 'teachers/base_teacher.html' %}
+
+{% block content %}
+    <!--Teacher -->
+    <div class="teacher">
+        <div class="row">
+            <div class="col-md-8">
+                <h2 class="title">{{ teacher.title }}</h2>
+            </div>
+        </div>
+            
+        <!-- Image start -->
+        <div>
+        {% if teacher.image %}
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="{{ teacher.image.url }}"
+                alt="Imagen del profesor">
+                <div class="card-body">
+                    <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
+                 </div>
+            </div>
+        {% endif %}
+        </div>
+        <!-- Image end -->
+
+        <p>{{ teacher.text|linebreaksbr }}</p>
+        <hr>
+        {% for tag in teacher.tags.all %}
+            <a href="{% url 'teacher_tags_list' slug=tag.slug %}"><button type="button" class="btn btn-outline-info">{{ tag }}</button></a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

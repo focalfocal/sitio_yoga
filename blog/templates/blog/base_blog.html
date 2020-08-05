@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block section_css %}
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+
+{% block section %}
+        <!-- Add new post -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11"></div>
+                <div class="col-md-1">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'post_new' %}" class="text-primary"><span class="material-icons md-64">note_add</span></a>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+
+        <!-- Main body content -->
+        <!---Handle side columns here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+

@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block section_css %}
+        <link rel="stylesheet" href="{% static 'css/teacher.css' %}">
+{% endblock %}
+
+
+{% block section %}
+
+        <!-- Main body content -->
+        <!---Handle side columns here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+

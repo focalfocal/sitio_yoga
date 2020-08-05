@@ -1,0 +1,54 @@
+{% extends 'teachers/base_teacher.html' %}
+
+{% block content %}
+    {% if tag_title %}
+        <!-- if filtered by tag-->
+        <h2 class="bg-warning text-white">
+            Con etiqueta: {{tag_title}}
+        </h2>
+        <br>
+    {% else %}
+        <!-- normal. All listed -->
+        <h1>Este es nuestro equipo de profesores</h1>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2">
+        
+    {% for teacher in teachers %}
+        <div class="col mb-4">
+            <div class="card teacher">
+                <div class="card-body text-center">
+                    <h2 class="card-title">
+                        <a href="{% url 'teacher_detail' slug=teacher.slug %}">{{ teacher.title }}</a>
+                    </h2>
+                    
+                    <!-- Image start -->
+                    <div>
+                    {% if teacher.thumbnail %}
+                        <div class="card mb-4 shadow-sm">
+                            <a href="{% url 'teacher_detail' slug=teacher.slug %}">
+                                <img class="card-img-top rounded-circle" src="{{ teacher.thumbnail.url }}"
+                                alt="Imagen del profesor">
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
+                             </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                    <!-- Image end -->
+
+                    <hr>
+                    {% for tag in teacher.tags.all %}
+                        <a href="{% url 'teacher_tags_list' slug=tag.slug %}"><button type="button" class="btn btn-outline-info btn-sm">{{ tag }}</button></a>
+                    {% endfor %}
+                </div>
+            </div><!-- <div class="card teacher"> -->
+        </div><!-- <div class="col mb-4"> -->
+    {% empty %}
+        <p class="text-danger">No se han encontrado profesores</p>
+    {% endfor %}
+        
+    </div><!-- <div class="row row-cols-1 row-cols-md-2"> -->
+    
+{% endblock %}
