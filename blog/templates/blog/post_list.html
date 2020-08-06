@@ -3,14 +3,14 @@
 {% block content %}
     {% if tag_title %}
         <h2 class="bg-warning text-white">
-            Con etiqueta: {{tag_title}}
+            With tag: {{tag_title}}
         </h2>
         <br>
     {%endif %}
 
     {% if search_string %}
         <h2 class="bg-success text-white">
-            Busqueda de texto: {{search_string}}
+            Text search: {{search_string}}
         </h2>
         <br>
     {%endif %}
@@ -21,7 +21,7 @@
                 <a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a>
             </h2>
             <div>
-                <p>publicado: {{ post.published_date }}</p>
+                <p>published: {{ post.published_date }}</p>
             </div>
 
             <!-- Image start -->
@@ -41,7 +41,7 @@
             <p>{{ post.text|linebreaksbr }}</p>
         </div>
     {% empty %}
-        <p class="text-danger">No se han encontrado posteos</p>
+        <p class="text-danger">No post found</p>
     {% endfor %}
 
     {% include "pagination.html" with page=posts %}

@@ -1,9 +1,9 @@
 {% extends 'blog/base_blog.html' %}
 
 {% block content %}
-    <h2>Nueva entrada</h2>
+    <h2>New post</h2>
     <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-success ml-2">Guardar</button>
+        <button type="submit" class="save btn btn-success ml-2">Save</button>
     </form>
 {% endblock %}

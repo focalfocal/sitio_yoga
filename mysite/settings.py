@@ -136,12 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #Serving files uploaded by a user during development:
 #https://docs.djangoproject.com/en/2.2/howto/static-files/#serving-files-uploaded-by-a-user-during-development
 
-#BORRAR ------ MEDIA_URL = 'media/'
-#BORRAR ------ Agrego / inicial como en https://docs.djangoproject.com/en/2.2/howto/static-files/#serving-files-uploaded-by-a-user-during-development
-#MEDIA_URL = '/media/'
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = 'media/' # Note: Trailing slash required.
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') #by Example
 
 # Django message tags redefined as Bootstrap alert css-classes

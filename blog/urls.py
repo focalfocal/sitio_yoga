@@ -4,10 +4,12 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 #For authentication - Allauth
-from django.urls import path, include
+from django.urls import include
 
 urlpatterns = [
-    path('', views.post_list, name='post_list'),
+	path('', views.home, name='home'),
+
+    path('post/', views.post_list, name='post_list'),
 
     path('post/new/', views.post_new, name='post_new'),
 

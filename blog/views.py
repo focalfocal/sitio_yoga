@@ -10,6 +10,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
 
+
+#Home page / landing page
+def home(request):
+    return render(request, 'blog/index.html')
+
 #Auxiliary to paginate post lists
 def paginate_post_list(request, object_list, tag_title, search_string):
     #Do not change object_list name as causes paginator to fail

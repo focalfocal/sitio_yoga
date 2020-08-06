@@ -27,7 +27,7 @@ class Post(models.Model):
     text = models.TextField(verbose_name='texto')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-    #slug = models.SlugField(max_length=250, unique_for_date='publish')  #Django 2 by example
+    #slug = models.SlugField(max_length=250, unique_for_date='publish') 
     slug = models.SlugField(blank=True, default='')
     tags = models.ManyToManyField(Tag, blank=True)
 

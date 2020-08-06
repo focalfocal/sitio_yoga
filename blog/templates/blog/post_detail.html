@@ -32,8 +32,7 @@
                     <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
                  </div>
             </div>
-            <!-- url: {#{ post.image.url }#}
-            path: {#{ post.image.path }#} -->
+
         {% endif %}
         </div>
         <!-- Image end -->
@@ -65,7 +64,7 @@
         {% endif %}
 
     {% empty %}
-        <p>Todavía sin comentarios</p>
+        <p>No comments yet</p>
     {% endfor %}
 
     <hr>
@@ -80,7 +79,7 @@
         {% endfor %}
     {% endif %}
 
-    <h1>Nuevo comentario</h1>
+    <h1>New comment</h1>
     <form method="POST" class="post-form">
         {% csrf_token %}
         {{ form.as_p }}
@@ -88,7 +87,7 @@
         <button 
             type="submit" 
             class="save btn btn-success ml-2" 
-            >Enviar</button>   
+            >Send</button>   
     </form>
 
 {% endblock %}

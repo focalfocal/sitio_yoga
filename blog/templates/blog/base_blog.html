@@ -10,17 +10,23 @@
         <!-- Add new post -->
         <div class="container">
             <div class="row">
-                <div class="col-md-11"></div>
-                <div class="col-md-1">
+                <div class="col-md-10"></div>
+                <div class="col-md-2">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'post_new' %}" class="text-primary"><span class="material-icons md-64">note_add</span></a>
+                    <a href="{% url 'post_new' %}" class="text-primary text-decoration-none">
+                        <div class="d-flex align-middle">
+                            <span class="material-icons md-64">note_add</span>
+                            <p>New post</p>
+                        </div>
+                    </a>
+                {% endif %}
                 </div>
-            {% endif %}
+            
             </div>
         </div>
 
         <!-- Main body content -->
-        <!---Handle side columns here -->
+        <!---Handle side columns here (future) -->
         <div class="container">
             <div class="row">
                 <div class="col-md-8">

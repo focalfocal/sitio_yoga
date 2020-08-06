@@ -4,12 +4,12 @@
     {% if tag_title %}
         <!-- if filtered by tag-->
         <h2 class="bg-warning text-white">
-            Con etiqueta: {{tag_title}}
+            With tag: {{tag_title}}
         </h2>
         <br>
     {% else %}
         <!-- normal. All listed -->
-        <h1>Este es nuestro equipo de profesores</h1>
+        <h1>Our teachers team</h1>
     {% endif %}
 
     <div class="row row-cols-1 row-cols-md-2">
@@ -46,7 +46,7 @@
             </div><!-- <div class="card teacher"> -->
         </div><!-- <div class="col mb-4"> -->
     {% empty %}
-        <p class="text-danger">No se han encontrado profesores</p>
+        <p class="text-danger">No teacher found</p>
     {% endfor %}
         
     </div><!-- <div class="row row-cols-1 row-cols-md-2"> -->
