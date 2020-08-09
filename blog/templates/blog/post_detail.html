@@ -1,5 +1,4 @@
 {% extends 'blog/base_blog.html' %}
-{#% load blog_custom_filters %#}
 
 {% block content %}
     <!--Post -->
@@ -23,7 +22,8 @@
             {% endif %}
         </div>
         
-        <!-- Normal image handling -->    
+        <!-- Normal image handling -->  
+        {% comment %}  
         <!-- Image start -->
         <!-- <div>
         {#% if post.image %#}
@@ -38,46 +38,37 @@
         {#% endif %#}
         </div> -->
         <!-- Image end -->
+        {% endcomment %}
 
         <!-- Image handling for demo on Heroku -->
         <!-- Preloaded demo posts images are taken from /static/ -->
         <!-- New users posts images are taken from /media/, so they are deleted after Heroku dyno sleeps and ephemeral file system is destroyed -->
+
         <!-- Image start -->
-        <p>post.pk = {{ post.pk }}</p>
-        <p>post.image (=post.image.name=) = {{ post.image }}</p>
-        <p>post.image.path = {{ post.image.path }}</p>
-        <p>post.image.url = {{ post.image.url }}</p>
- 
-        {# "if" checks that image field on DB exists: #}
         {% if post.image %}
             <div class="card mb-4 shadow-sm">
-            <!--ValueError at /co/foo The 'logo' attribute has no file associated with it. -->
 
-<!--                 {#{% if post.image
-                no sirve asi ni con url. Entra por aqui. Chequea de la BD, no del sist. de archivos %#}
-                    <div id="user_uploaded_image" class="card-img-top"
-                    style="background-image: url({#{ post.image.url }#}); height: 50vh; background-repeat: no-repeat; background-position: center center; background-size: contain;"></div>
-                {#% else %#}
-                    <div id="backup_image" class="card-img-top"
-                style="background-image: url('/media/images/Mata_mua-Paul_Gauguin.jpg'); height: 50vh; background-repeat: no-repeat; background-position: center center; background-size: contain;"></div>
-                {#% endif %#}#} -->
-                
- <!--                <div id="user_uploaded_image" class="card-img-top"
-                    style="background-image: url({#{ post.image.url|file_exists }#}); height: 50vh; background-repeat: no-repeat; background-position: center center; background-size: contain;"></div> -->
-                    
-                <div id="user_uploaded_image" class="card-img-top"
-                    style="background-image: url(
-                        {#{ post.image.url|file_exists }#}
-                        {#{ post.image.path|file_exists funciona bien con exists}#}
-                        {{ post.image.url }}
-                    ); height: 50vh; background-repeat: no-repeat; background-position: center center; background-size: contain;"></div>
+             <!-- {#% include '/templates/special_image_rendering_for_demo.html' %#} -->
+             {% include  "../special_image_rendering_for_demo.html" %}   
+                   
+            <!-- 6 post and 6 teachers are pre-loaded to populate demo-->
+            <!-- {#% if post.pk > 6 %#}   
+                <img id="user uploaded image" class="card-img-top"
+                src="{#{ post.image.url }#}"
+                alt="user uploaded photo">
+
+            {#% else %#}
+                <img id="preloaded post image" class="card-img-top" 
+                src="{#% static post.image.name %#}"
+                alt="Static file only for demo, as Heroku only serves user uploaded files from third party servers which I am not using here">
+            {#% endif %#}
 
                 <div class="card-body">
                     <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
-                 </div>
+                 </div> -->
+            
             </div>
         {% endif %}
-        
         <!-- Image end -->
 
         <p>{{ post.text|linebreaksbr }}</p>

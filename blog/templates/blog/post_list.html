@@ -28,11 +28,15 @@
             <div>
             {% if post.image %}
                 <div class="card mb-4 shadow-sm">
-                    <img class="card-img-top" src="{{ post.image.url }}"
+                    <!-- <img class="card-img-top" src="{#{ post.image.url }#}"
                     alt="Imagen ilustrativa del post">
+
                     <div class="card-body">
                         <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
-                     </div>
+                     </div> -->
+
+                    {% include  "../special_image_rendering_for_demo.html" %}
+
                 </div>
             {% endif %}
             </div>

@@ -26,13 +26,18 @@
                     <div>
                     {% if teacher.thumbnail %}
                         <div class="card mb-4 shadow-sm">
+
                             <a href="{% url 'teacher_detail' slug=teacher.slug %}">
-                                <img class="card-img-top rounded-circle" src="{{ teacher.thumbnail.url }}"
+
+                            {% include  "../special_teachers_image_rendering_for_demo.html" with theimageurl=teacher.thumbnail.url theimagename=teacher.thumbnail.name addclass="rounded-circle" %}
+
+                            <!--     <img class="card-img-top rounded-circle" src="{#{ teacher.thumbnail.url }#}"
                                 alt="Imagen del profesor">
                             </a>
+
                             <div class="card-body">
                                 <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
-                             </div>
+                             </div> -->
                         </div>
                     {% endif %}
                     </div>

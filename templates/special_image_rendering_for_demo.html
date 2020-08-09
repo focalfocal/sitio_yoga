@@ -1,0 +1,17 @@
+{% load static %}
+
+            <!-- 6 post and 6 teachers are pre-loaded to populate demo-->
+            {% if post.pk > 6 %}   
+                <img id="user uploaded image" class="card-img-top"
+                src="{{ post.image.url }}"
+                alt="user uploaded photo">
+
+            {% else %}
+                <img id="preloaded post image" class="card-img-top" 
+                src="{% static post.image.name %}"
+                alt="Static file only for demo, as Heroku only serves user uploaded files from third party servers which I am not using here">
+            {% endif %}
+
+                <div class="card-body">
+                    <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
+                 </div>
