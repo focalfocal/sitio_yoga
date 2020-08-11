@@ -3,7 +3,6 @@ from . import views
 #For images:
 from django.conf import settings
 from django.conf.urls.static import static
-#For authentication - Allauth
 from django.urls import include
 
 urlpatterns = [
@@ -25,4 +24,5 @@ urlpatterns = [
 
     path('accounts/', include('allauth.urls')),
     
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

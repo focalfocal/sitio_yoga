@@ -23,4 +23,3 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('', include('teachers.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-#This allows us to serve user-uploaded media files during development. The static helper function works only in debug mode. It is not suitable for production environments.

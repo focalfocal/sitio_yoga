@@ -1,12 +1,20 @@
 *.pyc
 *~
-__pycache__
 #Always update actual venv name
 myvenv
 db.sqlite3
-/static
 .DS_Store
+#/static/cs: to git
+/static/images/
+/static/teach_images/
+/static/teach_thumbnails/
 media
 #Python Decouple library data files:
 .env
 *.zip
+__pycache__/
+*.py[cod]
+node_modules
+.idea
+\#*\#
+.\#*
