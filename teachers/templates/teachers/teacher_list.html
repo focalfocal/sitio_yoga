@@ -1,4 +1,5 @@
 {% extends 'teachers/base_teacher.html' %}
+{% load cloudinary %}
 
 {% block content %}
     {% if tag_title %}
@@ -29,15 +30,20 @@
 
                             <a href="{% url 'teacher_detail' slug=teacher.slug %}">
 
-                            {% include  "../special_teachers_image_rendering_for_demo.html" with theimageurl=teacher.thumbnail.url theimagename=teacher.thumbnail.name addclass="rounded-circle" %}
-
                             <!--     <img class="card-img-top rounded-circle" src="{#{ teacher.thumbnail.url }#}"
-                                alt="Imagen del profesor">
+                                alt="teacher image">
                             </a>
 
                             <div class="card-body">
                                 <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
                              </div> -->
+
+                            {% cloudinary teacher.thumbnail format="jpg" class="card-img-top rounded-circle" alt="teacher image" %}
+                            </a>
+
+                            <div class="card-body">
+                                <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>
+                            </div>
                         </div>
                     {% endif %}
                     </div>

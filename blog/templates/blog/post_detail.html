@@ -41,28 +41,9 @@
         <!-- Image end -->
         {% endcomment %}
 
-        <!-- Image handling for demo on Heroku -->
-        <!-- Preloaded demo posts images are taken from /static/ -->
-        <!-- New users posts images are taken from /media/, so they are deleted after Heroku dyno sleeps and ephemeral file system is destroyed -->
-
-        <!-- Image start -->
-<!--         {#% if post.image %#}
-            <div class="card mb-4 shadow-sm">
-
-             {#% include  "../special_image_rendering_for_demo.html" %#}   
-            
-            </div>
-        {#% endif %#} -->
-        <!-- Image end -->
-
-        <!-- Image handling with Cloudinary -->
-        <!-- Image start -->
         <div>
         {% if post.image %}
             <div class="card mb-4 shadow-sm">
-                <!-- <img class="card-img-top" 
-                src="{#{ post.image.url }#}"
-                alt="post image"> -->
                 {% cloudinary post.image format="jpg" class="card-img-top" alt="post image" %}
                 <div class="card-body">
                     <p class="card-text small font-italic font-weight-lighter text-secondary">Pixabay License: Free for commercial use. No attribution required</p>

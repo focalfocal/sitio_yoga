@@ -155,7 +155,7 @@ STATICFILES_DIRS = [
 #https://docs.djangoproject.com/en/2.2/howto/static-files/#serving-files-uploaded-by-a-user-during-development
 
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') #by EExample
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 # Django message tags redefined as Bootstrap alert css-classes

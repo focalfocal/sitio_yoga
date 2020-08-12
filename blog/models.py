@@ -34,7 +34,8 @@ class Post(models.Model):
         overwrite = True,
         resource_type ="image",
         folder = 'yoga_site/post_image',
-        use_filename = True
+        use_filename = True,
+        blank=True
         )
     text = models.TextField(verbose_name='the text')
     created_date = models.DateTimeField(default=timezone.now)

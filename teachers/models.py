@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 class Tag(models.Model):
     title = models.CharField(max_length=255, default='')
@@ -21,8 +22,25 @@ class Tag(models.Model):
 
 class Teacher(models.Model):
     title = models.CharField(max_length=200, verbose_name='nombre')
-    thumbnail = models.ImageField(default='', blank=True, upload_to='teach_thumbnails')
-    image = models.ImageField(default='', blank=True, upload_to='teach_images')
+    #thumbnail = models.ImageField(default='', blank=True, upload_to='teach_thumbnails')
+    #PENDING: thumbnail generation with Cloudinary transformation
+    thumbnail = CloudinaryField(
+        "Image",
+        overwrite = True,
+        resource_type ="image",
+        folder = 'yoga_site/teach_thumbnail',
+        use_filename = True,
+        blank=True
+    )
+    #image = models.ImageField(default='', blank=True, upload_to='teach_images')
+    image = CloudinaryField(
+        "Image",
+        overwrite = True,
+        resource_type ="image",
+        folder = 'yoga_site/teach_image',
+        use_filename = True,
+        blank=True
+    )
     text = models.TextField(verbose_name='texto')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(default=timezone.now)
