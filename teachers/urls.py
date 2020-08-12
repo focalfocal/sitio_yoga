@@ -12,4 +12,3 @@ urlpatterns = [
 	path('teachers_tags/<slug:slug>/', views.teacher_tags_list, name='teacher_tags_list'),
     
 ]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

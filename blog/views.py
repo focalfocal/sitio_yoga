@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
+from cloudinary.forms import cl_init_js_callbacks
 
 
 #Home page / landing page
@@ -92,7 +93,6 @@ def post_detail(request, slug=None):
 @permission_required('blog.add_post')
 def post_new(request):
     if request.method == "POST":
-        #form = PostForm(request.POST)
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
@@ -111,10 +111,9 @@ def post_new(request):
 
 @permission_required('blog.change_post')
 def post_edit(request, slug):
+    #post instance: objects in DB which will be modified
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
-        #form = PostForm(request.POST, instance=post)
-        #form = PostForm(data=request.POST, files=request.FILES, instance=post)
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)

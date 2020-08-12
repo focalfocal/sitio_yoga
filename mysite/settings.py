@@ -14,6 +14,10 @@ import os
 from django.contrib.messages import constants as message_constants
 #Python Decouple library:
 from decouple import config, Csv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api 
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +39,13 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 GOOGLE_RECAPTCHA_SECRET_KEY = config('GOOGLE_RECAPTCHA_SECRET_KEY')
 
+cloudinary.config( 
+    cloud_name = config('CLOUD_NAME'),
+    api_key = config('CLOUD_API_KEY'),
+    api_secret = config('CLOUD_API_SECRET')
+    )
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'widget_tweaks',
+    'cloudinary',
     'teachers',
     'blog.apps.BlogConfig',
 ]
@@ -159,3 +171,4 @@ MESSAGE_TAGS = {
 SITE_ID = 1 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/'
+

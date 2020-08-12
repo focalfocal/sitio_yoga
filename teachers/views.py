@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Teacher, Tag
-#from .forms import PostForm, CommentForm
 import json
 import urllib
 from django.conf import settings
@@ -91,57 +90,6 @@ def teacher_detail(request, slug=None):
     #return render(request, 'blog/post_detail.html', {'post': post, 'form': form})
     return render(request, 'teachers/teacher_detail.html', {'teacher': teacher})
 
-# @permission_required('blog.add_post')
-# def post_new(request):
-#     if request.method == "POST":
-#         #form = PostForm(request.POST)
-#         form = PostForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             post.published_date = timezone.now()
-#             #debugging
-#             #print("url= ", post.image.url)
-#             #print("url= ", post.image.path)
-#             post.save()
-#             return redirect('post_detail', slug=post.slug)
-            
-#     else:
-#         #Use form defined on forms.py
-#         form = PostForm()
-#     return render(request, 'blog/post_edit.html', {'form': form})
-
-# @permission_required('blog.change_post')
-# def post_edit(request, slug):
-#     post = get_object_or_404(Post, slug=slug)
-#     if request.method == "POST":
-#         #form = PostForm(request.POST, instance=post)
-#         #form = PostForm(data=request.POST, files=request.FILES, instance=post)
-#         form = PostForm(request.POST, request.FILES, instance=post)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             post.published_date = timezone.now()
-#             #debugging
-#             #print("url= ", post.image.url)
-#             #print("url= ", post.image.path)
-#             post.save()
-#             return redirect('post_detail', slug=post.slug)
-#     else:
-#         form = PostForm(instance=post)
-#     return render(request, 'blog/post_edit.html', {'form': form})
-
-# @permission_required('blog.change_comment')
-# def comment_approve(request, pk):
-#     comment = get_object_or_404(Comment, pk=pk)
-#     comment.approve()
-#     return redirect('post_detail', slug=comment.post.slug)
-
-# @permission_required('blog.delete_comment')
-# def comment_remove(request, pk):
-#     comment = get_object_or_404(Comment, pk=pk)
-#     comment.delete()
-#     return redirect('post_detail', slug=comment.post.slug)
 
 #Shows tag filtered posts
 def teacher_tags_list(request, slug=None):

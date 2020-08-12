@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 class Tag(models.Model):
     title = models.CharField(max_length=255, default='')
@@ -22,9 +23,20 @@ class Tag(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200, verbose_name='titulo')
-    image = models.ImageField(default='', blank=True, upload_to='images')
-    text = models.TextField(verbose_name='texto')
+    title = models.CharField(max_length=200, verbose_name='the title')
+    #image = models.ImageField(default='', blank=True, upload_to='images')
+    
+    #The cloudinary.models.CloudinaryField defines a field in the model that represents an image stored in Cloudinary. Allows you to store references to Cloudinary stored images in your model. The internal type of the field is CharField.
+    #Returns an CloudinaryResource object.
+    #image = CloudinaryField('image', blank=True,null=True)
+    image = CloudinaryField(
+        "Image",
+        overwrite = True,
+        resource_type ="image",
+        folder = 'yoga_site/post_image',
+        use_filename = True
+        )
+    text = models.TextField(verbose_name='the text')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     #slug = models.SlugField(max_length=250, unique_for_date='publish') 
@@ -51,8 +63,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200, verbose_name='autor')
-    text = models.TextField(verbose_name='texto')
+    author = models.CharField(max_length=200, verbose_name='the author')
+    text = models.TextField(verbose_name='the text')
     email = models.CharField(max_length=250, blank=True)
     web_site = models.CharField(max_length=250, blank=True, verbose_name='sitio web')
     created_date = models.DateTimeField(default=timezone.now)
