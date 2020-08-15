@@ -154,8 +154,8 @@ STATICFILES_DIRS = [
 #Serving files uploaded by a user during development:
 #https://docs.djangoproject.com/en/2.2/howto/static-files/#serving-files-uploaded-by-a-user-during-development
 
+# Using Cloudinary, these two are not used. Pending to remove and confirm.
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 # Django message tags redefined as Bootstrap alert css-classes
